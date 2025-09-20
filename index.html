@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase Shift 2025 - AI-Assisted Alternate Nostril Breathing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">Phase Shift 2025</h1>
+                <p class="app-subtitle">AI-Assisted Alternate Nostril Breathing</p>
+                <div class="header-controls">
+                    <button id="settingsBtn" class="btn btn--secondary btn--sm">Settings</button>
+                    <button id="startBtn" class="btn btn--primary">Start Practice</button>
+                    <button id="pauseBtn" class="btn btn--secondary hidden">Pause</button>
+                    <button id="stopBtn" class="btn btn--outline btn--sm hidden">Stop</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Camera Feed Section -->
+            <div class="camera-section">
+                <div class="video-container">
+                    <video id="videoElement" autoplay muted></video>
+                    <canvas id="detectionCanvas"></canvas>
+                    <div class="video-overlay">
+                        <div id="breathingGuide" class="breathing-guide">
+                            <div class="breathing-circle"></div>
+                            <div class="breath-text">Ready to begin</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Camera Status -->
+                <div class="camera-status">
+                    <div id="cameraIndicator" class="status-indicator">
+                        <span class="indicator-dot"></span>
+                        <span id="cameraStatus">Camera: Disconnected</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <!-- Session Info -->
+                <div class="session-info card">
+                    <div class="card__body">
+                        <h3>Session Progress</h3>
+                        <div class="session-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Duration</span>
+                                <span id="sessionTimer" class="stat-value">00:00</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Cycles</span>
+                                <span id="cycleCount" class="stat-value">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Posture Score</span>
+                                <span id="postureScore" class="stat-value">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Breathing Instructions -->
+                <div class="breathing-instructions card">
+                    <div class="card__body">
+                        <h3>Current Phase</h3>
+                        <div id="breathingPhase" class="phase-indicator">
+                            <div class="nostril-visual">
+                                <div class="nostril left-nostril" id="leftNostril">L</div>
+                                <div class="nostril right-nostril" id="rightNostril">R</div>
+                            </div>
+                            <p id="breathingInstruction">Prepare for practice</p>
+                            <div id="breathTimer" class="breath-timer">4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-time Feedback -->
+                <div class="feedback-panel card">
+                    <div class="card__body">
+                        <h3>Real-time Feedback</h3>
+                        <div class="feedback-items">
+                            <div class="feedback-item">
+                                <span class="feedback-label">Posture</span>
+                                <div id="postureStatus" class="status status--info">Monitoring</div>
+                            </div>
+                            <div class="feedback-item">
+                                <span class="feedback-label">Head Position</span>
+                                <div id="headStatus" class="status status--info">Monitoring</div>
+                            </div>
+                            <div class="feedback-item">
+                                <span class="feedback-label">Eyes</span>
+                                <div id="eyeStatus" class="status status--info">Monitoring</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="modal hidden">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Practice Settings</h2>
+                    <button id="closeSettingsBtn" class="btn btn--secondary btn--sm">Close</button>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label class="form-label" for="breathDuration">Breath Duration (seconds)</label>
+                            <select id="breathDuration" class="form-control">
+                                <option value="4">4 seconds</option>
+                                <option value="5">5 seconds</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <label class="form-label" for="sessionDuration">Session Duration</label>
+                            <select id="sessionDuration" class="form-control">
+                                <option value="60">1 minute</option>
+                                <option value="180">3 minutes</option>
+                                <option value="300" selected>5 minutes</option>
+                                <option value="600">10 minutes</option>
+                                <option value="900">15 minutes</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <label class="form-label" for="alertVolume">Alert Volume</label>
+                            <select id="alertVolume" class="form-control">
+                                <option value="0.1">Very Low</option>
+                                <option value="0.3">Low</option>
+                                <option value="0.5" selected>Medium</option>
+                                <option value="0.7">High</option>
+                                <option value="1.0">Very High</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <label class="form-label" for="feedbackSensitivity">Feedback Sensitivity</label>
+                            <select id="feedbackSensitivity" class="form-control">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-group full-width">
+                            <label class="form-label">
+                                <input type="checkbox" id="audioEnabled" checked> Enable Audio Cues
+                            </label>
+                        </div>
+
+                        <div class="setting-group full-width">
+                            <label class="form-label">
+                                <input type="checkbox" id="eyeAlerts" checked> Eye Detection Alerts
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Permission Request Modal -->
+        <div id="permissionModal" class="modal">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Camera Permission Required</h2>
+                </div>
+                <div class="modal-body">
+                    <p>This application requires camera access to provide real-time posture feedback and eye detection during your breathing practice.</p>
+                    <div class="permission-actions">
+                        <button id="requestPermissionBtn" class="btn btn--primary">Grant Camera Access</button>
+                        <button id="skipPermissionBtn" class="btn btn--secondary">Continue Without Camera</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Session Complete Modal -->
+        <div id="sessionCompleteModal" class="modal hidden">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Session Complete</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="session-summary">
+                        <div class="summary-stats">
+                            <div class="summary-stat">
+                                <span class="summary-label">Total Time</span>
+                                <span id="finalTime" class="summary-value">00:00</span>
+                            </div>
+                            <div class="summary-stat">
+                                <span class="summary-label">Breathing Cycles</span>
+                                <span id="finalCycles" class="summary-value">0</span>
+                            </div>
+                            <div class="summary-stat">
+                                <span class="summary-label">Average Posture Score</span>
+                                <span id="finalPosture" class="summary-value">--</span>
+                            </div>
+                        </div>
+                        <div class="session-actions">
+                            <button id="newSessionBtn" class="btn btn--primary">Start New Session</button>
+                            <button id="closeSessionBtn" class="btn btn--secondary">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
